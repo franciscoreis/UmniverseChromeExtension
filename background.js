@@ -8,7 +8,7 @@ var activeWindow
 updateAllTabsAndWindowsStatus()
 
 
-// Listener - Put this in the background script to listen to all the events.
+// Listener - listen to all the events.
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
 
@@ -24,12 +24,12 @@ chrome.runtime.onMessage.addListener(
 //-------------------------------------------------------------
 chrome.tabs.onActivated.addListener(function(activeInfo) 
 {
-	
+	/*
 	if(false) //does not work but for now it is better only when click
 	setTimeout(function () {
      sendTabImage(activeInfo.tab)
     }, 2000)
-	
+	*/
 })
 //-------------------------------------------------------
 /*chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) 
@@ -41,13 +41,12 @@ chrome.tabs.onActivated.addListener(function(activeInfo)
 function sendTabImage(tab)
 {
 
-   chrome.tabs.captureVisibleTab(null, {format: 'png'}, function (screen) 
+if(tab)
+   chrome.tabs.captureVisibleTab(null, {format: 'png'}, function (urlScreen)
    {
-	return
-		let url = screen
 		 //chrome.tabs.sendMessage(tabs[0].id, {func: 'showPicture', picture: screen});
 	
-		chrome.tabs.sendMessage(tabWithUmniverse.id, { msg: "tab_image_" + activeTab.id, data: url }, 
+		chrome.tabs.sendMessage(tabWithUmniverse.id, { msg: "tab_image_" + activeTab.id, data: urlScreen },
 			(response) => {
     		if (response) 
 				{
@@ -57,10 +56,9 @@ function sendTabImage(tab)
 
 			})
 	
-	
-                    });
+  });
 
-	
+
 	
 }
 //--------------------------------------------------
